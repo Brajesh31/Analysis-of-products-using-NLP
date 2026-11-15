@@ -43,4 +43,4 @@ Do not scrape private pages, bypass access controls, collect unnecessary persona
 
 Code and original documentation are released under the MIT License. Third-party images, logos, retailer content, and dependencies remain subject to their respective terms.
 
-Last updated: 2026-11-14 23:30 UTC
+Last updated: 2026-11-15 03:51 UTC
