@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Read the project documentation
+    url: https://github.com/Brajesh31/Analysis-of-products-using-NLP/tree/main/docs
+    about: Check the documentation index and troubleshooting guide before opening a question.
+  - name: 🔐 Report a security issue
+    url: https://github.com/Brajesh31/Analysis-of-products-using-NLP/security
+    about: Do not publish credentials, cookies, or private data in a public issue.
