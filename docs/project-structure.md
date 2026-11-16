@@ -2,25 +2,41 @@
 
 ## 1. Current tracked layout
 
-This is a conceptual inventory of the tracked paths inspected on the default branch. The `Frontend/assets/` directory contains multiple existing image and SVG files; they are grouped below to keep the tree readable.
+This inventory reflects the tracked paths inspected on the default branch after the documentation expansion. The many individual image and SVG files under `Frontend/assets/` are grouped below. The structure is intentionally split between current files and proposed future folders.
 
 ```text
 Analysis-of-products-using-NLP/
 ├── .github/
-│   ├── PULL_REQUEST_TEMPLATE.md
-│   └── workflows/
-│       └── update-readme.yml
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.yml
+│   │   ├── feature_request.yml
+│   │   ├── documentation.yml
+│   │   └── config.yml
+│   ├── workflows/
+│   │   ├── update-readme.yml
+│   │   └── repository-quality.yml
+│   └── PULL_REQUEST_TEMPLATE.md
 ├── .editorconfig
 ├── .env.example
 ├── .gitattributes
 ├── .gitignore
 ├── .idea/
 │   └── .gitignore
+├── ACCESSIBILITY.md
 ├── CHANGELOG.md
 ├── CITATION.cff
 ├── CODEOWNERS
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
+├── GOVERNANCE.md
+├── LICENSE
+├── MAINTAINERS.md
+├── README.md
+├── RELEASE.md
+├── ROADMAP.md
+├── SECURITY.md
+├── SUPPORT.md
+├── TECHNICAL_DEBT.md
 ├── Frontend/
 │   ├── assets/
 │   │   ├── product and team photographs
@@ -31,69 +47,116 @@ Analysis-of-products-using-NLP/
 │   ├── index.css
 │   ├── listing.html
 │   └── listing.css
-├── LICENSE
-├── README.md
-├── ROADMAP.md
-├── SECURITY.md
-├── SUPPORT.md
 ├── Web Scraping – Flipkart Customer Reviews.ipynb
 ├── Web Scraping – Myntra Customer Reviews.ipynb
 └── docs/
     ├── README.md
+    ├── accessibility.md
+    ├── analysis-reporting.md
     ├── api.md
     ├── architecture.md
+    ├── collection-notebook-guide.md
+    ├── data-and-schema.md
     ├── database.md
     ├── deployment.md
+    ├── diagrams.md
     ├── development.md
     ├── faq.md
+    ├── future-scope.md
     ├── installation.md
-    └── troubleshooting.md
+    ├── limitations.md
+    ├── nlp-methodology.md
+    ├── performance.md
+    ├── project-overview.md
+    ├── project-structure.md
+    ├── responsible-data.md
+    ├── testing.md
+    ├── troubleshooting.md
+    ├── workflow.md
+    ├── decisions/
+    │   └── README.md
+    └── templates/
+        ├── analysis-report-template.md
+        └── architecture-decision-record.md
 ```
 
-## 2. Root-level responsibilities
+## 2. Root-level project files
 
-| File | Responsibility | Maintenance rule |
+| File | Purpose | Maintenance expectation |
 |---|---|---|
-| `README.md` | First point of orientation | Keep concise enough to scan, link deep guides |
-| `LICENSE` | Legal license terms | Do not alter casually; review license changes explicitly |
-| `CONTRIBUTING.md` | Contribution workflow | Keep steps actionable and consistent with CI |
-| `SECURITY.md` | Vulnerability and data-exposure reporting | Never request public disclosure of secrets |
-| `CODE_OF_CONDUCT.md` | Community expectations | Keep reporting and enforcement process clear |
-| `SUPPORT.md` | Help and troubleshooting entry point | Request sanitized diagnostics only |
-| `CHANGELOG.md` | Historical change record | Add dated, user-visible changes |
-| `ROADMAP.md` | Planned work | Distinguish planned, active, and completed items |
+| `README.md` | Project introduction, setup, diagrams, and navigation | Keep claims aligned with actual code |
+| `LICENSE` | Legal terms for use and distribution | Change only through an explicit license decision |
+| `CONTRIBUTING.md` | Contribution and review process | Keep validation steps actionable |
+| `SECURITY.md` | Vulnerability and data-exposure handling | Never request public secrets or private data |
+| `CODE_OF_CONDUCT.md` | Community expectations and enforcement | Keep reporting route clear |
+| `GOVERNANCE.md` | Decision and stewardship process | Record consequential policy changes |
+| `MAINTAINERS.md` | Maintainer identity and responsibilities | Keep role information current |
+| `ACCESSIBILITY.md` | Top-level accessibility expectations | Do not claim formal conformance without an audit |
+| `SUPPORT.md` | Support request guidance | Ask for sanitized reproducible diagnostics |
+| `CHANGELOG.md` | Historical user-visible changes | Do not invent historical entries |
+| `ROADMAP.md` | Planned engineering phases | Mark complete only with evidence |
+| `RELEASE.md` | Release and rollback procedure | Include tests and known limitations |
+| `TECHNICAL_DEBT.md` | Verified gaps and recommended priorities | Close items only after validation |
 | `CITATION.cff` | Citation metadata | Keep author, title, repository, and license accurate |
-| `.env.example` | Safe environment-variable documentation | Never include real values |
-| `.gitignore` | Exclude local and generated artefacts | Avoid broad rules that hide important source files |
+| `CODEOWNERS` | Default review ownership | Keep ownership aligned with maintainers |
+| `.env.example` | Safe configuration documentation | Use placeholders only |
+| `.gitignore` | Local data, secrets, and generated files | Avoid broad patterns that hide source files |
 
 ## 3. Frontend responsibilities
 
 - `Frontend/index.html`: main page structure and content.
-- `Frontend/index.css`: styling associated with the main page.
+- `Frontend/index.css`: styling for the main page.
 - `Frontend/listing.html`: product/listing interface structure.
 - `Frontend/listing.css`: listing page styling.
-- `Frontend/assets/`: images, logos, icons, and social artwork.
+- `Frontend/assets/`: existing product images, team imagery, logo, icons, and social assets.
 
-The inspected tree does not show a frontend package manifest or build configuration. Do not assume React, a bundler, or a backend framework. Preserve relative paths and exact filename case when changing HTML or CSS.
+The inspected tree does not show a frontend package manifest or build configuration. Do not assume a React application, bundler, or backend framework. Preserve relative paths and exact filename case when changing HTML or CSS.
 
 ## 4. Notebook responsibilities
 
-- `Web Scraping – Flipkart Customer Reviews.ipynb`: an exploratory Requests/BeautifulSoup collection notebook with a broad `row` selector in its current code.
-- `Web Scraping – Myntra Customer Reviews.ipynb`: an exploratory Requests/BeautifulSoup notebook using a platform-specific review container selector.
+### Flipkart notebook
 
-The current notebooks are not a reusable crawler framework. Their selectors may become stale and their outputs must be checked for personal data before publication.
+The notebook uses Requests and BeautifulSoup. Its earlier version selected every `div.row`, a broad selector that captured unrelated product content and reviewer metadata. The revised notebook uses a narrow candidate review-body selector, explicit request timeout and response validation, and optional local CSV export disabled by default. The selector still requires verification against current permitted markup.
+
+### Myntra notebook
+
+The notebook uses Requests and BeautifulSoup with a candidate review-body selector based on the original notebook's review-text wrapper. It now documents the collection assumptions, validates the HTTP response, avoids reviewer identity fields, and keeps local CSV export disabled by default. The selector can become stale and must be checked before execution.
+
+Both notebooks are exploratory. Neither implements a production crawler, pagination service, shared Python package, or sentiment model.
 
 ## 5. Documentation responsibilities
 
-The `docs/` directory should contain project-specific guides for architecture, workflow, schema, NLP methodology, responsible collection, testing, deployment, and troubleshooting. The documentation index is the navigation source of truth.
+The `docs/` directory is the detailed technical reference:
+- project scope, structure, and architecture;
+- collection and data workflow;
+- notebook-specific operating guidance;
+- schema and data quality;
+- NLP methodology and evaluation;
+- responsible collection and privacy;
+- testing, performance, and accessibility;
+- analysis reporting, diagrams, and templates;
+- API/database status, deployment, setup, and troubleshooting;
+- limitations and future scope.
 
-## 6. Proposed future structure
+The documentation index at `docs/README.md` is the navigation source of truth. Update it whenever a guide is added, renamed, or removed.
 
-If reusable code and tests are added, a future layout could be:
+## 6. GitHub automation responsibilities
+
+- `.github/ISSUE_TEMPLATE/` provides structured bug, feature, and documentation reports.
+- `.github/PULL_REQUEST_TEMPLATE.md` asks contributors for scope, validation, privacy, accessibility, and rollback information.
+- `.github/workflows/repository-quality.yml` validates notebook JSON structure and Markdown hygiene. It must not make live requests to retail platforms.
+- `.github/workflows/update-readme.yml` refreshes the README timestamp weekly or manually. It should not create noisy hourly commits.
+
+## 7. Proposed future application layout
+
+If reusable collection and analysis code is added, consider the following structure:
 
 ```text
 src/
 ├── collection/
+│   ├── base.py
+│   ├── flipkart.py
+│   └── myntra.py
 ├── schemas/
 ├── preprocessing/
 ├── analysis/
@@ -110,8 +173,13 @@ reports/
 └── generated/    # local output, reviewed before publication
 ```
 
-This is a proposal, not the current tree. Do not move the existing notebooks or frontend assets simply to match it. Any migration should preserve history where practical, update links, and include a compatibility note.
+This is a proposal, not the current tree. Do not move the existing notebooks or frontend assets simply to match it. A migration should preserve history where practical, update all links, and include a compatibility note.
 
-## 7. File-change rule
+## 8. File-change and review rule
 
-When a file is added or removed, update this guide and the documentation index. Do not document local caches, credentials, private datasets, or generated artefacts as public repository contents.
+When a tracked file or directory is added or removed:
+1. Update this inventory.
+2. Update the documentation index.
+3. Update README navigation when the change affects users or contributors.
+4. Add tests or a validation procedure.
+5. Check that no local caches, credentials, private datasets, or generated artefacts have been added accidentally.
