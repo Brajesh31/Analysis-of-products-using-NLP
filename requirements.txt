@@ -1,0 +1,4 @@
+# Runtime dependencies used by the exploratory review-collection notebooks.
+# These are compatibility ranges, not a fully locked environment.
+requests>=2.31,<3
+beautifulsoup4>=4.12,<5
