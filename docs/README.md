@@ -18,7 +18,7 @@ This directory documents the current repository and provides a practical extensi
 | Review privacy, collection, and retention safeguards | [Responsible data](responsible-data.md) |
 | Validate notebook, data, and frontend changes | [Testing](testing.md) |
 | Check accessibility expectations | [Accessibility](accessibility.md) |
-| Prepare a local environment | [Installation](installation.md) |
+| Prepare a local environment | [Installation](installation.md) |\n| Record environment and repeatable notebook runs | [Reproducibility](reproducibility.md) |\n| Review the static HTML/CSS interface | [Frontend guide](frontend-guide.md) |\n| Check repository completion criteria | [Quality checklist](quality-checklist.md) |
 | Contribute code or documentation | [Development](development.md) |
 | Understand future API design | [API status](api.md) |
 | Understand persistence choices | [Database design](database.md) |
@@ -28,7 +28,7 @@ This directory documents the current repository and provides a practical extensi
 | Review proposed future work | [Future scope](future-scope.md) |
 | Find common answers | [FAQ](faq.md) |
 
-## 📐 Documentation architecture
+## 🖥️ Frontend and environment references\n\n- [Frontend guide](frontend-guide.md) documents the current static pages, local preview, asset handling, and UI review checklist.\n- [Reproducibility](reproducibility.md) explains dependency installation, notebook execution records, and limits of repeatability.\n- [Quality checklist](quality-checklist.md) provides a project-specific acceptance checklist.\n\n## 📐 Documentation architecture
 
 ```mermaid
 flowchart TD
