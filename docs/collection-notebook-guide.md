@@ -1,61 +1,97 @@
 # 📓 Collection notebook guide
 
-## 1. Purpose of the notebooks
+## 1. Purpose and current scope
 
-The repository contains two separate Jupyter notebooks:
+The repository contains two platform-specific Jupyter notebooks:
 - `Web Scraping – Flipkart Customer Reviews.ipynb`
 - `Web Scraping – Myntra Customer Reviews.ipynb`
 
-Both are exploratory examples using Requests and BeautifulSoup. They are not a general-purpose crawler, a production ingestion service, or a guarantee that the current platform page will remain parseable.
+Both use Requests and BeautifulSoup to inspect a single product-page response. They are exploratory examples, not a general-purpose crawler, production ingestion service, or guarantee that the source platform will continue to expose the same HTML.
 
-## 2. Important findings in the current notebook code
+The notebooks were revised to document the collection assumptions, use explicit request timeouts, validate HTTP responses, target review-body elements, avoid extracting reviewer identity fields, and keep local CSV export disabled by default. These improvements do not prove that the selectors work against the current live pages. They still require verification in a permitted environment.
 
-The Flipkart notebook currently:
-- imports BeautifulSoup and Requests;
-- uses a hard-coded product URL;
-- calls `requests.get` without an explicit timeout;
-- does not check the HTTP status before parsing;
-- selects every `div` with class `row`, a broad selector that may capture unrelated page content;
-- saves output containing reviewer names and location strings.
+## 2. Flipkart notebook: current behaviour
 
-The Myntra notebook currently:
-- imports BeautifulSoup and Requests;
-- uses a hard-coded product URL;
-- calls `requests.get` without an explicit timeout or status validation;
-- selects a platform-specific review container;
-- extracts the full container text rather than a formally validated common schema.
+The current notebook:
+- imports Requests and BeautifulSoup;
+- retains the original Oppo F19 product page as an editable example URL;
+- sets a 15-second request timeout;
+- stops on HTTP 401, 403, and 429;
+- validates the response status and HTML content type;
+- uses the candidate selector `div.ZmyHeo` for review-body text;
+- stores source platform, product reference, retrieval time, and raw review text in memory;
+- prints counts and text lengths rather than printing full review content;
+- offers an optional local CSV export, disabled by default.
 
-These are concrete limitations to address. Do not assume the existing selectors are still correct or that the returned content is safe to publish.
+The previous notebook version used a broad `div.row` selector. That captured unrelated product-page content and reviewer names/location strings in saved output. The revised notebook clears the old output and narrows the extraction target. Do not restore the broad selector or republish the old output.
 
-## 3. Safe execution expectations
+## 3. Myntra notebook: current behaviour
 
-Before execution, review the source platform's current terms and confirm the method is permitted. Use a small sample. A revised notebook should use an explicit timeout, validate the response, inspect content type, and stop on access denial or throttling. It must not attempt to bypass a CAPTCHA or other technical restriction.
+The current notebook:
+- imports Requests and BeautifulSoup;
+- retains the original Sassafras product page as an editable example URL;
+- sets a 15-second request timeout;
+- stops on HTTP 401, 403, and 429;
+- validates the response status and HTML content type;
+- uses the candidate selector `#user-review-reviewTextWrapper`;
+- stores source platform, product reference, retrieval time, and raw review text in memory;
+- prints counts and text lengths rather than full review content;
+- offers an optional local CSV export, disabled by default.
 
-## 4. Selector verification
+The selector is a hypothesis based on the original notebook's review-text wrapper reference. It may no longer exist or may return a different structure.
 
-Inspect only a small, permitted portion of the returned page. Identify the element that contains the review body and avoid parent containers that include reviewer names, locations, report links, navigation, product details, or other page chrome.
+## 4. Safe execution expectations
 
-A selector change should be accompanied by a synthetic HTML fixture and a parser test. Do not use a live website as the only test fixture.
+Before executing a request:
+1. Review current platform terms, robots directives, API policies, and applicable requirements.
+2. Confirm that the method and purpose are permitted.
+3. Use a product URL you are authorized to access.
+4. Run the notebook from a fresh kernel.
+5. Stop on access denial, throttling, or an unexpected response.
+6. Do not bypass login, CAPTCHA, paywall, or technical restrictions.
+7. Do not use cookies, browser profiles, or session tokens from another user.
 
-## 5. Recommended notebook sections
+The notebook does not retry failed requests. This is intentional. A denied request should not trigger repeated attempts or evasion.
 
-1. Title, research question, source, and collection date.
-2. Responsible collection notice and stop conditions.
-3. Environment and dependency information.
-4. Product URL and non-secret configuration.
-5. Request and response validation.
-6. Page parsing and selector diagnostics.
-7. Review-body extraction.
-8. Record schema and validation.
-9. Duplicate and missingness checks.
-10. Sanitized exploratory output.
-11. Export instructions for approved local data.
-12. Limitations and next steps.
+## 5. Selector verification
 
-## 6. Output hygiene
+A selector returning no elements may mean the page changed, reviews are not present in the returned HTML, the content is loaded dynamically, or the request did not return the expected product page. Inspect only a small permitted sample of the markup.
 
-The saved output of a notebook is part of the committed file. Clear outputs that contain reviewer identities, location information, raw HTML, cookies, headers, or large record dumps. Keep only synthetic examples or aggregate diagnostics that are safe to publish.
+If the selector needs changing:
+- identify the narrowest review-body element;
+- exclude parent containers that contain reviewer identity, location, report links, navigation, and product information;
+- document the new selector and the date it was verified;
+- add a synthetic HTML fixture for the expected structure;
+- add a parser test for valid and malformed markup.
 
-## 7. Reproducibility
+Never replace a failed selector with a page-wide selector merely to make the notebook return data.
 
-Record Python and dependency versions, collection timestamp, source page, parser version, number of records inspected, number accepted, number rejected, and reason categories. A notebook should run from a fresh kernel in top-to-bottom order. Avoid hidden state and manually edited output cells.
+## 6. Data contract
+
+Each extracted record currently contains:
+- `source_platform`;
+- `product_reference`;
+- `retrieved_at`;
+- `review_text_raw`.
+
+This is a minimal exploratory record, not yet the complete shared schema described in [Data and schema](data-and-schema.md). Ratings, stable source review IDs, language metadata, collection run IDs, and parser versions are not currently extracted by these notebooks.
+
+## 7. Export and retention
+
+CSV export is disabled by default. If export is enabled, it writes to `data/exports/`, which is ignored by Git. Enable export only after confirming that retaining the review text is permitted and necessary. Do not commit the resulting files without reviewing rights, privacy, and retention requirements.
+
+## 8. What these notebooks do not do
+
+They do not implement pagination, dynamic browser interaction, a scheduler, retry/backoff, a common data validation package, sentiment classification, topic modelling, model evaluation, or product ranking. Do not claim those capabilities.
+
+## 9. Reproducibility checklist
+
+- [ ] Python and package versions recorded.
+- [ ] Product URL and source platform recorded.
+- [ ] Collection method and purpose permitted.
+- [ ] Selector verified against current permitted markup.
+- [ ] Notebook executed from a fresh kernel.
+- [ ] HTTP status and content type checked.
+- [ ] Extracted text inspected privately for relevance and personal data.
+- [ ] Output cells contain no raw personal data or secrets.
+- [ ] Local exports remain outside public Git unless explicitly approved.
