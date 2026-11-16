@@ -1,0 +1,51 @@
+name: "🐛 Bug report"
+description: Report a reproducible problem in a notebook, frontend page, or repository workflow.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Flipkart collection notebook
+        - Myntra collection notebook
+        - Frontend home page
+        - Frontend listing page
+        - Documentation
+        - GitHub workflow
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the observed behaviour and why it is a problem.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Include exact steps and the affected file or notebook cell.
+      placeholder: "1. Open ... 2. Run ... 3. Observe ..."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, browser, Python/Jupyter version, and relevant dependency versions.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized error output
+      description: Remove credentials, cookies, reviewer identities, and private page content.
