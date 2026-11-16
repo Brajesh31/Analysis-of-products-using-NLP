@@ -1,0 +1,49 @@
+name: "✨ Feature request"
+description: Propose a scoped improvement to collection, data quality, NLP, or the frontend.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Project area
+      options:
+        - Collection reliability
+        - Data schema and validation
+        - NLP methodology
+        - Analysis and visualization
+        - Frontend and accessibility
+        - Documentation
+        - Developer experience
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: Explain who is affected and what currently cannot be done.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe expected behaviour, inputs, outputs, and alternatives.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: List outcomes that can be tested or reviewed.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safeguards
+    attributes:
+      label: Data and platform safeguards
+      options:
+        - label: The proposal does not require bypassing platform restrictions or access controls.
+        - label: The proposal avoids unnecessary reviewer or personal data.
+        - label: The proposal includes a validation plan.
