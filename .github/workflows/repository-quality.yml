@@ -10,6 +10,8 @@ on:
       - "**.yml"
       - "**.yaml"
       - ".gitignore"
+      - "requirements.txt"
+      - "requirements-dev.txt"
       - ".github/workflows/repository-quality.yml"
   pull_request:
     branches: [main]
