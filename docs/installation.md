@@ -13,7 +13,7 @@ For the notebooks:
 - the packages imported by the specific notebook;
 - internet access only where permitted and required for a source request.
 
-The inspected tracked tree does not include a pinned dependency manifest. The package list below is therefore intentionally not presented as a complete, verified lockfile. Inspect notebook imports and test the selected versions in a clean environment before adding a requirements file.
+The repository includes `requirements.txt` for runtime packages and `requirements-dev.txt` for notebook authoring and validation. These are bounded compatibility ranges, not a hash-locked environment.
 
 ## 2. Clone the repository
 
@@ -62,7 +62,7 @@ python -m pip install jupyter requests beautifulsoup4
 jupyter lab
 ```
 
-This is a starting environment for the inspected notebook imports, not a pinned reproducibility guarantee. Record exact versions after validating the notebook.
+Record exact tested versions with `python --version`, `python -m pip freeze`, and `jupyter --version`. See [Reproducibility](reproducibility.md) for the execution record and limitations.
 
 ## 5. Execute responsibly
 
