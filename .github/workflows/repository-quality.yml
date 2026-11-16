@@ -17,6 +17,9 @@ on:
       - "**.md"
       - "**.ipynb"
       - "**.html"
+      - "**.yml"
+      - "**.yaml"
+      - ".gitignore"
       - ".github/workflows/repository-quality.yml"
   workflow_dispatch:
 
