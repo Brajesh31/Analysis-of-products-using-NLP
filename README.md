@@ -178,7 +178,7 @@ Dashed connections represent proposed future integration. The current frontend d
 - a modern web browser;
 - Jupyter Notebook, JupyterLab, or Google Colab for notebook exploration.
 
-The tracked tree does not currently provide a pinned Python dependency manifest. The notebook imports include Requests and BeautifulSoup. Install the dependencies actually used by the notebook and record tested versions before treating the environment as reproducible.
+The repository now includes `requirements.txt` for notebook runtime dependencies and `requirements-dev.txt` for Jupyter-based development. These files define bounded compatibility ranges, not a hash-locked environment. See [Reproducibility](docs/reproducibility.md).
 
 ### Clone the repository
 
@@ -221,7 +221,7 @@ Install the visible notebook dependencies and Jupyter:
 
 ```bash
 python -m pip install --upgrade pip
-python -m pip install jupyter requests beautifulsoup4
+python -m pip install -r requirements-dev.txt
 jupyter lab
 ```
 
@@ -345,7 +345,7 @@ See [ROADMAP.md](ROADMAP.md) and [Future scope](docs/future-scope.md).
 | [Testing](docs/testing.md) | Validation strategy |
 | [Accessibility](docs/accessibility.md) | Frontend and visualization checklist |
 | [Diagrams](docs/diagrams.md) | Editable Mermaid diagrams |
-| [Installation](docs/installation.md) | Local setup |
+| [Installation](docs/installation.md) | Local setup |\n| [Reproducibility](docs/reproducibility.md) | Dependency and execution records |\n| [Frontend guide](docs/frontend-guide.md) | Static UI development and review |\n| [Quality checklist](docs/quality-checklist.md) | Repository acceptance criteria |
 | [Development](docs/development.md) | Contribution workflow |
 | [API](docs/api.md) | Current API status and future contract |
 | [Database](docs/database.md) | Persistence design considerations |
