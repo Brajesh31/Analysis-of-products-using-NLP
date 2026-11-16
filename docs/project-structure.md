@@ -102,7 +102,7 @@ Analysis-of-products-using-NLP/
 | `.env.example` | Safe configuration documentation | Use placeholders only |
 | `.gitignore` | Local data, secrets, and generated files | Avoid broad patterns that hide source files |
 
-## 3. Frontend responsibilities
+## 3. Dependency manifests\n\n- `requirements.txt` lists the direct runtime packages used by the collection notebooks.\n- `requirements-dev.txt` adds JupyterLab and notebook-format tooling for local development.\n- These files use bounded version ranges and are not a hash-locked dependency solution. See [Reproducibility](reproducibility.md).\n\n## 4. Frontend responsibilities
 
 - `Frontend/index.html`: main page structure and content.
 - `Frontend/index.css`: styling for the main page.
@@ -112,7 +112,7 @@ Analysis-of-products-using-NLP/
 
 The inspected tree does not show a frontend package manifest or build configuration. Do not assume a React application, bundler, or backend framework. Preserve relative paths and exact filename case when changing HTML or CSS.
 
-## 4. Notebook responsibilities
+See [Frontend README](../Frontend/README.md) and [Frontend guide](frontend-guide.md) for local preview, asset handling, accessibility, screenshots, and review standards.\n\n## 5. Notebook responsibilities
 
 ### Flipkart notebook
 
@@ -124,7 +124,7 @@ The notebook uses Requests and BeautifulSoup with a candidate review-body select
 
 Both notebooks are exploratory. Neither implements a production crawler, pagination service, shared Python package, or sentiment model.
 
-## 5. Documentation responsibilities
+## 6. Documentation responsibilities
 
 The `docs/` directory is the detailed technical reference:
 - project scope, structure, and architecture;
@@ -140,14 +140,14 @@ The `docs/` directory is the detailed technical reference:
 
 The documentation index at `docs/README.md` is the navigation source of truth. Update it whenever a guide is added, renamed, or removed.
 
-## 6. GitHub automation responsibilities
+## 7. GitHub automation responsibilities
 
 - `.github/ISSUE_TEMPLATE/` provides structured bug, feature, and documentation reports.
 - `.github/PULL_REQUEST_TEMPLATE.md` asks contributors for scope, validation, privacy, accessibility, and rollback information.
 - `.github/workflows/repository-quality.yml` validates notebook JSON structure and Markdown hygiene. It must not make live requests to retail platforms.
 - `.github/workflows/update-readme.yml` refreshes the README timestamp weekly or manually. It should not create noisy hourly commits.
 
-## 7. Proposed future application layout
+## 8. Proposed future application layout
 
 If reusable collection and analysis code is added, consider the following structure:
 
@@ -175,7 +175,7 @@ reports/
 
 This is a proposal, not the current tree. Do not move the existing notebooks or frontend assets simply to match it. A migration should preserve history where practical, update all links, and include a compatibility note.
 
-## 8. File-change and review rule
+## 9. File-change and review rule
 
 When a tracked file or directory is added or removed:
 1. Update this inventory.
