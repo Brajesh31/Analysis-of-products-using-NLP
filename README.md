@@ -354,6 +354,18 @@ See [ROADMAP.md](ROADMAP.md) and [Future scope](docs/future-scope.md).
 | [Limitations](docs/limitations.md) | Data and implementation constraints |
 | [Future scope](docs/future-scope.md) | Phased extension plan |
 
+## 🧭 Repository policies and maintenance
+
+- [Contribution guide](CONTRIBUTING.md): branch, notebook, testing, and pull-request standards.
+- [Security policy](SECURITY.md): safe collection, secret handling, and private reporting.
+- [Code of conduct](CODE_OF_CONDUCT.md): community expectations and enforcement.
+- [Governance](GOVERNANCE.md): project decisions and review principles.
+- [Accessibility statement](ACCESSIBILITY.md): frontend and visualization expectations.
+- [Release process](RELEASE.md): release readiness and rollback.
+- [Technical debt register](TECHNICAL_DEBT.md): verified gaps and priority order.
+- [Maintainers](MAINTAINERS.md): repository ownership and responsibilities.
+- [Support](SUPPORT.md): how to report reproducible issues safely.
+
 ## 🤝 Contributing
 
 Contributions are welcome when they improve correctness, reproducibility, safety, accessibility, or maintainability. Read [CONTRIBUTING.md](CONTRIBUTING.md), use the issue templates, and include exact validation evidence. Do not commit credentials, cookies, private datasets, or notebook outputs containing personal information.
