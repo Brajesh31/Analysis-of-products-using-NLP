@@ -1,13 +1,50 @@
-.ipynb_checkpoints/
-__pycache__/
-*.py[cod]
+# Python environments and interpreter artefacts
 .venv/
 venv/
 env/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Jupyter local state
+.ipynb_checkpoints/
+*.nbconvert.ipynb
+
+# Environment files and credentials
 .env
 .env.*
 !.env.example
-*.csv
-*.json
-*.html.tmp
+!.env.template
+*.pem
+*.key
+
+# Local datasets and generated analysis artefacts
+data/raw/
+data/processed/
+data/exports/
+reports/generated/
+outputs/
 *.log
+
+# Local databases
+*.sqlite
+*.sqlite3
+*.db
+
+# Operating system and editor state
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.bak
+*.orig
