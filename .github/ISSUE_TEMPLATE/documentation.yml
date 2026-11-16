@@ -1,0 +1,26 @@
+name: "📚 Documentation improvement"
+description: Report missing, unclear, shallow, or inaccurate project documentation.
+title: "[Docs]: "
+labels:
+  - documentation
+body:
+  - type: input
+    id: location
+    attributes:
+      label: File or section
+      placeholder: "docs/nlp-methodology.md"
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: What is unclear, missing, or incorrect?
+    validations:
+      required: true
+  - type: textarea
+    id: improvement
+    attributes:
+      label: Suggested improvement
+      description: Describe the detail, example, diagram, or procedure that should be added.
+    validations:
+      required: true
