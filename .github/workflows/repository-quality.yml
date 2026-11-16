@@ -1,0 +1,107 @@
+name: Repository quality checks
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**.md"
+      - "**.ipynb"
+      - "**.html"
+      - ".github/workflows/repository-quality.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "**.md"
+      - "**.ipynb"
+      - "**.html"
+      - ".github/workflows/repository-quality.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: repository-quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate documentation and notebooks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate notebooks and Markdown
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import re
+          from pathlib import Path
+          from urllib.parse import unquote
+
+          errors = []
+          notebook_paths = list(Path(".").rglob("*.ipynb"))
+          markdown_paths = list(Path(".").rglob("*.md"))
+
+          for path in notebook_paths:
+              try:
+                  notebook = json.loads(path.read_text(encoding="utf-8"))
+                  if notebook.get("nbformat") != 4:
+                      errors.append(f"{path}: expected notebook format 4")
+                  cells = notebook.get("cells")
+                  if not isinstance(cells, list):
+                      errors.append(f"{path}: cells must be a list")
+                      continue
+                  ids = []
+                  for index, cell in enumerate(cells):
+                      if cell.get("cell_type") not in {"code", "markdown", "raw"}:
+                          errors.append(f"{path}: cell {index} has invalid type")
+                      cell_id = cell.get("id")
+                      if not cell_id:
+                          errors.append(f"{path}: cell {index} has no id")
+                      ids.append(cell_id)
+                      source = cell.get("source", [])
+                      if not isinstance(source, (str, list)):
+                          errors.append(f"{path}: cell {index} source must be text or a list")
+                  if len(ids) != len(set(ids)):
+                      errors.append(f"{path}: duplicate cell ids")
+                  print(f"Notebook structure checked: {path}")
+              except Exception as exc:
+                  errors.append(f"{path}: {exc}")
+
+          for path in markdown_paths:
+              if ".git" in path.parts:
+                  continue
+              content = path.read_text(encoding="utf-8")
+              fence_count = len(re.findall(r"^\s*```", content, re.MULTILINE))
+              if fence_count % 2:
+                  errors.append(f"{path}: unbalanced fenced code blocks")
+              for line_number, line in enumerate(content.splitlines(), 1):
+                  if line.rstrip() != line:
+                      errors.append(f"{path}:{line_number}: trailing whitespace")
+
+              # Check ordinary relative Markdown links. External URLs and anchors are skipped.
+              for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", content):
+                  target = target.strip().split()[0].strip("<>")
+                  if not target or target.startswith(("https://", "http://", "mailto:", "#")):
+                      continue
+                  target = unquote(target.split("#", 1)[0])
+                  if not target:
+                      continue
+                  resolved = (path.parent / target).resolve()
+                  if not resolved.exists():
+                      errors.append(f"{path}: broken relative link -> {target}")
+
+          if errors:
+              print("\n".join(errors))
+              raise SystemExit(1)
+
+          print(f"Validated {len(notebook_paths)} notebooks and {len(markdown_paths)} Markdown files.")
+          PY
